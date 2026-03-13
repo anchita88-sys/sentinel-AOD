@@ -81,6 +81,17 @@ function Index() {
   const themeClass =
     sector === "community" ? "theme-community" : "theme-nightlife";
 
+  // Radix portals (Dialog, Select) mount on document.body — theme tokens must
+  // live there too or modal/dropdown surfaces render transparent.
+  useEffect(() => {
+    const body = document.body;
+    body.classList.remove("theme-community", "theme-nightlife");
+    body.classList.add(themeClass);
+    return () => {
+      body.classList.remove("theme-community", "theme-nightlife");
+    };
+  }, [themeClass]);
+
   return (
     <div className={cn(themeClass, "theme-transition min-h-screen bg-background text-foreground")}>
       <EmergencyHeader sector={sector} />

@@ -73,6 +73,27 @@
 
 :root {
   --radius: 0.5rem;
+
+  /* Fallback tokens for portaled UI (Dialog/Select) before sector theme mounts */
+  --background: oklch(0.985 0.004 247);
+  --foreground: oklch(0.21 0.04 258);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.21 0.04 258);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.21 0.04 258);
+  --primary: oklch(0.42 0.11 254);
+  --primary-foreground: oklch(0.99 0.003 247);
+  --secondary: oklch(0.955 0.012 247);
+  --secondary-foreground: oklch(0.3 0.05 258);
+  --muted: oklch(0.955 0.012 247);
+  --muted-foreground: oklch(0.5 0.03 257);
+  --accent: oklch(0.93 0.03 250);
+  --accent-foreground: oklch(0.3 0.06 258);
+  --destructive: oklch(0.55 0.22 27);
+  --destructive-foreground: oklch(0.99 0.003 247);
+  --border: oklch(0.9 0.012 255);
+  --input: oklch(0.9 0.012 255);
+  --ring: oklch(0.42 0.11 254);
 }
 
 /* ============================================================
