@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Activity, RefreshCw, ShieldCheck } from "lucide-react";
-import { EmergencyHeader } from "@/components/nsw/EmergencyHeader";
+import { RefreshCw, ShieldCheck } from "lucide-react";
+import { OverdoseSignsSection } from "@/components/nsw/OverdoseSignsSection";
 import { SectorToggle } from "@/components/nsw/SectorToggle";
 import { AlertCard } from "@/components/nsw/AlertCard";
 import { GrassrootsModal } from "@/components/nsw/GrassrootsModal";
@@ -41,11 +41,11 @@ export const Route = createFileRoute("/")({
 const SECTOR_COPY: Record<Sector, { focus: string }> = {
   community: {
     focus:
-      "This view is for community health, primary care, and everyday settings. It highlights risks around prescription and illicit opioids — including newer synthetic opioids — and points you to ongoing clinical support and referral services in your area.",
+      "Community health and everyday settings — opioid risks and local clinical support.",
   },
   nightlife: {
     focus:
-      "This view is for nightlife, festivals, and large events. It focuses on stimulant-related risks such as unexpected strength, overheating, and what to do if someone needs urgent peer-led help on the night.",
+      "Nightlife, festivals, and events — stimulant risks, overheating, and urgent peer-led help.",
   },
 };
 
@@ -94,30 +94,20 @@ function Index() {
 
   return (
     <div className={cn(themeClass, "theme-transition min-h-screen bg-background text-foreground")}>
-      <EmergencyHeader sector={sector} />
-
       <main className="mx-auto max-w-7xl px-4 pb-16">
         {/* Hero */}
-        <header className="py-8">
-          <div className="flex items-center gap-2 text-sm font-medium text-primary">
-            <Activity className="h-4 w-4" aria-hidden />
-            Statewide multi-jurisdictional triage node
-          </div>
-          <h1 className="mt-2 max-w-3xl text-2xl font-bold leading-tight sm:text-3xl">
+        <header className="py-6">
+          <h1 className="max-w-3xl text-2xl font-bold leading-tight sm:text-3xl">
             NSW Clinical Risk &amp; Harm Reduction Communication Interface
           </h1>
-          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            This page is here to help anyone in New South Wales find clear,
-            up-to-date information about drug-related health risks. It brings
-            together official warnings from NSW Health, links to local support
-            and harm reduction services, and reports shared by community peer
-            networks. Choose your Local Health District to see resources near
-            you, and switch between the community health or nightlife view to
-            read guidance that fits your setting. This is an information
-            resource only — it does not replace medical advice or emergency
-            care.
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            One place to check drug-related health warnings for New South Wales —
+            official alerts, local support, and community reports. Choose your
+            area and view below.
           </p>
         </header>
+
+        <OverdoseSignsSection />
 
         {/* Sector segmentation */}
         <section aria-label="Sector selection" className="mb-4">

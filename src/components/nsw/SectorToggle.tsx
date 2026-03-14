@@ -4,21 +4,18 @@ import type { Sector } from "@/lib/nsw-data";
 
 const OPTIONS: {
   id: Sector;
-  emoji: string;
   icon: typeof Building2;
   title: string;
   desc: string;
 }[] = [
   {
     id: "community",
-    emoji: "🏥",
     icon: Building2,
     title: "Community & Primary Health",
     desc: "Healthcare workers, NSPs & general community health",
   },
   {
     id: "nightlife",
-    emoji: "🎪",
     icon: PartyPopper,
     title: "Nightlife & Major Events",
     desc: "Festivals, nightlife & acute peer-led care",
@@ -64,10 +61,7 @@ export function SectorToggle({
               <Icon className="h-5 w-5" />
             </span>
             <span className="min-w-0">
-              <span className="flex items-center gap-1.5 text-sm font-semibold">
-                <span aria-hidden>{opt.emoji}</span>
-                {opt.title}
-              </span>
+              <span className="text-sm font-semibold">{opt.title}</span>
               <span
                 className={cn(
                   "mt-0.5 block text-xs",

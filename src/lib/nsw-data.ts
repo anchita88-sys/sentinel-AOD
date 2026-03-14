@@ -266,21 +266,21 @@ export const OVERDOSE_MARKERS: Record<
   { label: string; markers: string[] }
 > = {
   community: {
-    label: "Opioid toxidrome",
+    label: "Opioid overdose",
     markers: [
-      "Pinpoint pupils",
-      "Slow / stopped breathing",
-      "Blue or grey lips & fingertips",
-      "Unresponsive / cannot be woken",
+      "Very small (pinpoint) pupils",
+      "Slow or stopped breathing",
+      "Blue or grey lips and fingertips",
+      "Will not wake up or respond",
     ],
   },
   nightlife: {
-    label: "Serotonin toxicity & hyperthermia",
+    label: "Stimulant overdose or overheating",
     markers: [
       "Very high body temperature",
-      "Agitation, confusion, seizures",
-      "Rigid muscles / tremor",
-      "Rapid heartbeat, chest pain",
+      "Agitation, confusion, or seizures",
+      "Stiff or rigid muscles",
+      "Fast heartbeat or chest pain",
     ],
   },
 };
