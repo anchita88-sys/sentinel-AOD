@@ -41,11 +41,11 @@ export const Route = createFileRoute("/")({
 const SECTOR_COPY: Record<Sector, { focus: string }> = {
   community: {
     focus:
-      "Pharmaceutical integrity, synthetic opioids (nitazenes) and persistent clinical referral pathways.",
+      "This view is for community health, primary care, and everyday settings. It highlights risks around prescription and illicit opioids — including newer synthetic opioids — and points you to ongoing clinical support and referral services in your area.",
   },
   nightlife: {
     focus:
-      "Stimulant dosage variances, hyperthermia and acute peer-led care.",
+      "This view is for nightlife, festivals, and large events. It focuses on stimulant-related risks such as unexpected strength, overheating, and what to do if someone needs urgent peer-led help on the night.",
   },
 };
 
@@ -107,9 +107,15 @@ function Index() {
             NSW Clinical Risk &amp; Harm Reduction Communication Interface
           </h1>
           <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Evidence-based health alerts, clinical resources and peer-reported
-            trends across all NSW Local Health Districts. Select a communication
-            stream to tailor guidance to your public health setting.
+            This page is here to help anyone in New South Wales find clear,
+            up-to-date information about drug-related health risks. It brings
+            together official warnings from NSW Health, links to local support
+            and harm reduction services, and reports shared by community peer
+            networks. Choose your Local Health District to see resources near
+            you, and switch between the community health or nightlife view to
+            read guidance that fits your setting. This is an information
+            resource only — it does not replace medical advice or emergency
+            care.
           </p>
         </header>
 
