@@ -61,6 +61,8 @@
   --color-emergency: var(--emergency);
   --color-emergency-foreground: var(--emergency-foreground);
 
+  --color-hero-foreground: var(--hero-foreground);
+
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
@@ -94,6 +96,7 @@
   --border: oklch(0.9 0.012 255);
   --input: oklch(0.9 0.012 255);
   --ring: oklch(0.42 0.11 254);
+  --hero-foreground: oklch(0.99 0.003 247);
 }
 
 /* ============================================================
@@ -135,6 +138,8 @@
   --peer-foreground: oklch(0.99 0.003 247);
   --emergency: oklch(0.52 0.21 25);
   --emergency-foreground: oklch(0.99 0.003 247);
+
+  --hero-foreground: oklch(0.99 0.003 247);
 
   --gradient-hero: linear-gradient(135deg, oklch(0.36 0.1 255), oklch(0.46 0.12 245));
   --shadow-card: 0 1px 2px oklch(0.3 0.04 258 / 0.06), 0 8px 24px -12px oklch(0.3 0.04 258 / 0.18);
@@ -189,6 +194,9 @@
   --peer-foreground: oklch(0.99 0.003 247);
   --emergency: oklch(0.66 0.25 22);
   --emergency-foreground: oklch(0.99 0.003 247);
+
+  /* Light text for dark hero gradient panels (not primary-foreground, which is dark on yellow buttons) */
+  --hero-foreground: oklch(0.97 0.004 247);
 
   --gradient-hero: linear-gradient(135deg, oklch(0.22 0.03 300), oklch(0.24 0.05 265));
   --shadow-card: 0 1px 2px oklch(0 0 0 / 0.4), 0 10px 30px -12px oklch(0 0 0 / 0.6);

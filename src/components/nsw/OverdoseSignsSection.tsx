@@ -10,7 +10,7 @@ export function OverdoseSignsSection() {
   return (
     <section
       aria-labelledby="overdose-signs-heading"
-      className="theme-transition rounded-xl border border-emergency/30 bg-card p-5 text-card-foreground shadow-card sm:p-6"
+      className="theme-transition mb-6 rounded-xl border border-emergency/30 bg-card p-5 text-card-foreground shadow-card sm:mb-8 sm:p-6"
     >
       <div className="flex items-start gap-3">
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emergency/10 text-emergency">
@@ -28,13 +28,16 @@ export function OverdoseSignsSection() {
 
       <div className="mt-5 grid gap-4 sm:grid-cols-2">
         {SIGN_GROUPS.map((group) => {
-          const { markers } = OVERDOSE_MARKERS[group.id];
+          const { markers, examples } = OVERDOSE_MARKERS[group.id];
           return (
             <div
               key={group.id}
               className="rounded-lg border border-border bg-background p-4"
             >
               <h3 className="text-sm font-semibold">{group.heading}</h3>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Examples: {examples}
+              </p>
               <ul className="mt-2 space-y-2">
                 {markers.map((sign) => (
                   <li

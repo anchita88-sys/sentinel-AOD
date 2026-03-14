@@ -11,14 +11,14 @@ const OPTIONS: {
   {
     id: "community",
     icon: Building2,
-    title: "Community & Primary Health",
-    desc: "Healthcare workers, NSPs & general community health",
+    title: "General health advice",
+    desc: "Ongoing support, naloxone, and local clinical pathways",
   },
   {
     id: "nightlife",
     icon: PartyPopper,
-    title: "Nightlife & Major Events",
-    desc: "Festivals, nightlife & acute peer-led care",
+    title: "Event or nightlife",
+    desc: "Festivals, clubs, and going out tonight",
   },
 ];
 
@@ -32,7 +32,7 @@ export function SectorToggle({
   return (
     <div
       role="tablist"
-      aria-label="Public health communication stream"
+      aria-label="What are you here for?"
       className="grid grid-cols-1 gap-3 sm:grid-cols-2"
     >
       {OPTIONS.map((opt) => {

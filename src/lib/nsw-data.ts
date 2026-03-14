@@ -34,6 +34,23 @@ export interface LHD {
   centreDetail: string;
 }
 
+export interface EventArea {
+  id: string;
+  name: string;
+  subtitle: string;
+  lat: number;
+  lng: number;
+  peerGuidance: string[];
+}
+
+export interface HospitalFacility {
+  id: string;
+  lhdId: string;
+  name: string;
+  level: 4 | 5;
+  location: string;
+}
+
 // ------------------------------------------------------------------
 // Verified 2026 static clinical cache (fallback when the live feed is
 // unreachable). Sourced from NSW Health public drug alerts.
@@ -247,6 +264,49 @@ export const LHDS: LHD[] = [
   },
 ];
 
+// Level 4/5 public hospitals with emergency departments that can treat
+// overdose and administer naloxone. Listed per LHD for finer local selection.
+export const HOSPITAL_FACILITIES: HospitalFacility[] = [
+  { id: "svh", lhdId: "sydney", name: "St Vincent's Hospital", level: 5, location: "Darlinghurst" },
+  { id: "sydh", lhdId: "sydney", name: "Sydney Hospital & Sydney Eye Hospital", level: 4, location: "Sydney CBD" },
+  { id: "rpa", lhdId: "svsydney", name: "Royal Prince Alfred Hospital", level: 5, location: "Camperdown" },
+  { id: "pow", lhdId: "sesydney", name: "Prince of Wales Hospital", level: 5, location: "Randwick" },
+  { id: "stgeorge", lhdId: "sesydney", name: "St George Hospital", level: 4, location: "Kogarah" },
+  { id: "sutherland", lhdId: "sesydney", name: "Sutherland Hospital", level: 4, location: "Caringbah" },
+  { id: "westmead", lhdId: "wsydney", name: "Westmead Hospital", level: 5, location: "Westmead" },
+  { id: "blacktown", lhdId: "wsydney", name: "Blacktown Hospital", level: 4, location: "Blacktown" },
+  { id: "auburn", lhdId: "wsydney", name: "Auburn Hospital", level: 4, location: "Auburn" },
+  { id: "liverpool", lhdId: "swsydney", name: "Liverpool Hospital", level: 5, location: "Liverpool" },
+  { id: "campbelltown", lhdId: "swsydney", name: "Campbelltown Hospital", level: 4, location: "Campbelltown" },
+  { id: "fairfield", lhdId: "swsydney", name: "Fairfield Hospital", level: 4, location: "Fairfield" },
+  { id: "rns", lhdId: "nsydney", name: "Royal North Shore Hospital", level: 5, location: "St Leonards" },
+  { id: "hornsby", lhdId: "nsydney", name: "Hornsby Ku-ring-gai Hospital", level: 4, location: "Hornsby" },
+  { id: "monavale", lhdId: "nsydney", name: "Mona Vale Hospital", level: 4, location: "Mona Vale" },
+  { id: "nepean", lhdId: "nbm", name: "Nepean Hospital", level: 4, location: "Kingswood" },
+  { id: "gosford", lhdId: "cc", name: "Gosford Hospital", level: 4, location: "Gosford" },
+  { id: "wyong", lhdId: "cc", name: "Wyong Hospital", level: 4, location: "Wyong" },
+  { id: "wollongong", lhdId: "illawarra", name: "Wollongong Hospital", level: 4, location: "Wollongong" },
+  { id: "johnhunter", lhdId: "hne", name: "John Hunter Hospital", level: 5, location: "New Lambton" },
+  { id: "tamworth", lhdId: "hne", name: "Tamworth Hospital", level: 4, location: "Tamworth" },
+  { id: "dubbo", lhdId: "wnsw", name: "Dubbo Base Hospital", level: 4, location: "Dubbo" },
+  { id: "orange", lhdId: "wnsw", name: "Orange Health Service", level: 4, location: "Orange" },
+  { id: "bathurst", lhdId: "wnsw", name: "Bathurst Hospital", level: 4, location: "Bathurst" },
+  { id: "brokenhill", lhdId: "farwest", name: "Broken Hill Health Service", level: 4, location: "Broken Hill" },
+  { id: "wagga", lhdId: "murrumbidgee", name: "Wagga Wagga Base Hospital", level: 4, location: "Wagga Wagga" },
+  { id: "bega", lhdId: "southernnsw", name: "South East Regional Hospital", level: 4, location: "Bega" },
+  { id: "goulburn", lhdId: "southernnsw", name: "Goulburn Base Hospital", level: 4, location: "Goulburn" },
+  { id: "coffs", lhdId: "mnc", name: "Coffs Harbour Health Campus", level: 4, location: "Coffs Harbour" },
+  { id: "portmacquarie", lhdId: "mnc", name: "Port Macquarie Base Hospital", level: 4, location: "Port Macquarie" },
+  { id: "lismore", lhdId: "northernnsw", name: "Lismore Base Hospital", level: 4, location: "Lismore" },
+  { id: "tweed", lhdId: "northernnsw", name: "The Tweed Hospital", level: 4, location: "Tweed Heads" },
+];
+
+export function hospitalsForLhd(lhdId: string): HospitalFacility[] {
+  return HOSPITAL_FACILITIES.filter((h) => h.lhdId === lhdId).sort(
+    (a, b) => b.level - a.level || a.name.localeCompare(b.name),
+  );
+}
+
 export function nearestLHD(lat: number, lng: number): LHD {
   let best = LHDS[0];
   let bestDist = Number.POSITIVE_INFINITY;
@@ -260,13 +320,141 @@ export function nearestLHD(lat: number, lng: number): LHD {
   return best;
 }
 
+// Event and nightlife areas — broader regions for people at festivals, clubs,
+// or going out (not LHD / hospital clinical pathways).
+export const EVENT_AREAS: EventArea[] = [
+  {
+    id: "sydney-cbd",
+    name: "Sydney CBD & inner city",
+    subtitle: "Clubs, bars, and city events",
+    lat: -33.868,
+    lng: 151.209,
+    peerGuidance: [
+      "Look for event medical or harm reduction stalls at large events.",
+      "Move to a cool, quieter area if someone is overheating — crowds trap heat.",
+      "Never leave someone alone if they are confused or unwell.",
+    ],
+  },
+  {
+    id: "eastern-beaches",
+    name: "Eastern suburbs & beaches",
+    subtitle: "Coastal venues and beach events",
+    lat: -33.89,
+    lng: 151.27,
+    peerGuidance: [
+      "Hydrate steadily — heat and dancing combine quickly near the coast.",
+      "Find shade or air conditioning if someone feels faint or agitated.",
+      "Ask venue staff or security for help accessing medical support.",
+    ],
+  },
+  {
+    id: "inner-west",
+    name: "Inner west",
+    subtitle: "Local venues, warehouses, and pop-up events",
+    lat: -33.89,
+    lng: 151.15,
+    peerGuidance: [
+      "Start low and go slow — strength varies between batches.",
+      "Check in with your group regularly and share plans to get home.",
+      "Call 000 if someone will not respond or has chest pain.",
+    ],
+  },
+  {
+    id: "western-sydney",
+    name: "Western Sydney",
+    subtitle: "Suburban nightlife and festival grounds",
+    lat: -33.81,
+    lng: 150.99,
+    peerGuidance: [
+      "Plan transport before you go out — avoid driving if using substances.",
+      "Carry water and take regular breaks from the dance floor.",
+      "Use a designated sober friend to watch for overheating.",
+    ],
+  },
+  {
+    id: "newcastle",
+    name: "Newcastle & Hunter Coast",
+    subtitle: "Harbour events and coastal festivals",
+    lat: -32.928,
+    lng: 151.781,
+    peerGuidance: [
+      "Coastal wind can hide dehydration — drink water even if you do not feel hot.",
+      "Know where the nearest open pharmacy or open clinic is before the event.",
+      "Seek help early for agitation or a racing heartbeat.",
+    ],
+  },
+  {
+    id: "wollongong",
+    name: "Wollongong & South Coast",
+    subtitle: "University events, beaches, and regional festivals",
+    lat: -34.427,
+    lng: 150.893,
+    peerGuidance: [
+      "Beach events combine sun, heat, and stimulants — pace yourself.",
+      "Do not mix alcohol with stimulants — it masks warning signs.",
+      "Call 000 for seizures, chest pain, or very high temperature.",
+    ],
+  },
+  {
+    id: "central-coast",
+    name: "Central Coast",
+    subtitle: "Coastal venues and outdoor events",
+    lat: -33.43,
+    lng: 151.34,
+    peerGuidance: [
+      "Outdoor events can get hot fast — rest in shade between sets.",
+      "Stick with people you trust and agree on a meeting point.",
+      "Ask event staff for medical help rather than waiting it out.",
+    ],
+  },
+  {
+    id: "northern-rivers",
+    name: "Byron Bay & Northern Rivers",
+    subtitle: "Festivals, camping events, and coastal gatherings",
+    lat: -28.647,
+    lng: 153.602,
+    peerGuidance: [
+      "Camping festivals mean long days — sleep, eat, and hydrate between nights.",
+      "Heat builds up in tents and crowds — cool someone down early.",
+      "Regional events may have on-site medics — locate them when you arrive.",
+    ],
+  },
+  {
+    id: "regional-nsw",
+    name: "Regional NSW festivals",
+    subtitle: "Country shows, regional events, and touring festivals",
+    lat: -32.25,
+    lng: 148.6,
+    peerGuidance: [
+      "Services can be far apart — save emergency numbers before you arrive.",
+      "Share your location with a trusted contact outside the event.",
+      "Carry naloxone if opioids may be present — stimulant contamination is a known risk.",
+    ],
+  },
+];
+
+export function nearestEventArea(lat: number, lng: number): EventArea {
+  let best = EVENT_AREAS[0];
+  let bestDist = Number.POSITIVE_INFINITY;
+  for (const area of EVENT_AREAS) {
+    const d = (area.lat - lat) ** 2 + (area.lng - lng) ** 2;
+    if (d < bestDist) {
+      bestDist = d;
+      best = area;
+    }
+  }
+  return best;
+}
+
 // Adaptive "Signs of Overdose" markers by sector.
 export const OVERDOSE_MARKERS: Record<
   Sector,
-  { label: string; markers: string[] }
+  { label: string; examples: string; markers: string[] }
 > = {
   community: {
     label: "Opioid overdose",
+    examples:
+      "Heroin, fentanyl, oxycodone, morphine, codeine, and nitazenes",
     markers: [
       "Very small (pinpoint) pupils",
       "Slow or stopped breathing",
@@ -276,6 +464,8 @@ export const OVERDOSE_MARKERS: Record<
   },
   nightlife: {
     label: "Stimulant overdose or overheating",
+    examples:
+      "MDMA (ecstasy), cocaine, methamphetamine (ice), and amphetamine (speed)",
     markers: [
       "Very high body temperature",
       "Agitation, confusion, or seizures",
